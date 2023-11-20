@@ -1,7 +1,7 @@
-import { UserRepository } from 'src/domains/repositories/user.repository';
-import { UserModel } from 'src/domains/model/user';
+import { UserRepository } from 'src/domain/repositories/user.repository';
+import { UserModel } from 'src/domain/model/user';
 
-export class FindUserByEmailUseCases {
+export class FindUserByEmailUseCase {
   constructor(private usersRepository: UserRepository) {}
 
   async execute(email: string): Promise<UserModel> {

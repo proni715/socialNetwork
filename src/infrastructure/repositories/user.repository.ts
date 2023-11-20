@@ -1,10 +1,9 @@
-import { UserRepository } from 'src/domains/repositories/user.repository';
+import { UserRepository } from 'src/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
-import { UserModel } from 'src/domains/model/user';
-import { Repository } from 'typeorm';
+import { UserModel } from 'src/domain/model/user';
+import { DeepPartial, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ICreateUserDto } from 'src/domains/dto/create-user.interface';
 
 @Injectable()
 export class UserRepositoryOrm implements UserRepository {
@@ -17,7 +16,7 @@ export class UserRepositoryOrm implements UserRepository {
     return await this.userRepository.find();
   }
 
-  async createUser(input: ICreateUserDto): Promise<UserModel> {
+  async createUser(input: DeepPartial<UserModel>): Promise<UserModel> {
     return await this.userRepository.save(input);
   }
 

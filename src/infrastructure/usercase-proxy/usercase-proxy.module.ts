@@ -1,11 +1,11 @@
-import { CreateUserUseCases } from 'src/applications/use-cases/user/createUser.usecase';
+import { CreateUserUseCase } from 'src/application/use-cases/user/createUser.usecase';
 import { DynamicModule, Module } from '@nestjs/common';
-import { GetAllUserUseCases } from 'src/applications/use-cases/user/getAllUsers.usecase';
+import { GetAllUserUseCase } from 'src/application/use-cases/user/getAllUsers.usecase';
 import { UserRepositoryOrm } from '../repositories/user.repository';
 import { UseCaseProxy } from './usecase-proxy';
 import { EnvironmentConfigModule } from '../config/config.module';
 import { RepositoriesModule } from '../repositories/repository.module';
-import { FindUserByEmailUseCases } from 'src/applications/use-cases/user/findUserByEmail.usecase';
+import { FindUserByEmailUseCase } from 'src/application/use-cases/user/findUserByEmail.usecase';
 
 @Module({
   imports: [EnvironmentConfigModule, RepositoriesModule],
@@ -23,19 +23,19 @@ export class UsecaseProxyModule {
           inject: [UserRepositoryOrm],
           provide: UsecaseProxyModule.GET_ALL_USERS_USE_CASE,
           useFactory: (userRepository: UserRepositoryOrm) =>
-            new UseCaseProxy(new GetAllUserUseCases(userRepository)),
+            new UseCaseProxy(new GetAllUserUseCase(userRepository)),
         },
         {
           inject: [UserRepositoryOrm],
           provide: UsecaseProxyModule.CREATE_USER_USE_CASE,
           useFactory: (userRepository: UserRepositoryOrm) =>
-            new UseCaseProxy(new CreateUserUseCases(userRepository)),
+            new UseCaseProxy(new CreateUserUseCase(userRepository)),
         },
         {
           inject: [UserRepositoryOrm],
           provide: UsecaseProxyModule.FIND_BY_EMAIL_USER_USE_CASE,
           useFactory: (userRepository: UserRepositoryOrm) =>
-            new UseCaseProxy(new FindUserByEmailUseCases(userRepository)),
+            new UseCaseProxy(new FindUserByEmailUseCase(userRepository)),
         },
       ],
       exports: [

@@ -1,10 +1,9 @@
 import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateUserDto } from 'src/domains/dto/create-user.interface';
 import { Trim } from 'class-sanitizer';
 import { IsUserExists } from '../decorators/IsUserExist.decorator';
 
-export class CreateUserDto implements ICreateUserDto {
+export class CreateUserDto {
   @ApiProperty({
     required: true,
     type: 'string',

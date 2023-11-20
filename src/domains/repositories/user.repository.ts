@@ -1,8 +1,9 @@
-import { ICreateUserDto } from '../dto/create-user.interface';
+import { DeepPartial } from 'typeorm';
+
 import { UserModel } from '../model/user';
 
 export interface UserRepository {
-  createUser(input: ICreateUserDto): Promise<UserModel>;
+  createUser(input: DeepPartial<UserModel>): Promise<UserModel>;
   getAllUsers(): Promise<UserModel[]>;
   findByEmail(email: string): Promise<UserModel>;
 }

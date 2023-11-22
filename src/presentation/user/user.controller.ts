@@ -2,37 +2,59 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
+  Put,
+  Delete,
   Inject,
-  Post,
-  Body,
+  UseGuards,
   UseInterceptors,
+  Body,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { CreateUserUseCase } from 'src/application/use-cases/user/createUser.usecase';
-import { GetAllUserUseCase } from 'src/application/use-cases/user/getAllUsers.usecase';
-import { UseCaseProxy } from 'src/infrastructure/usercase-proxy/usecase-proxy';
-import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usercase-proxy.module';
-import { CreateUserDto } from './dto/create-user.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/infrastructure/entities/user.entity';
+import { JwtAuthGuard } from 'src/infrastructure/guards/auth.guard';
+import { CurrentUser } from './decorators/currentUser.decorator';
+import { UserService } from './user.service';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @ApiTags('users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
-  constructor(
-    @Inject(UsecaseProxyModule.GET_ALL_USERS_USE_CASE)
-    private readonly getUserUsecaseProxy: UseCaseProxy<GetAllUserUseCase>,
-    @Inject(UsecaseProxyModule.CREATE_USER_USE_CASE)
-    private readonly createUserUsecaseProxy: UseCaseProxy<CreateUserUseCase>,
-  ) {}
-
+  @Inject(UserService)
+  private readonly userService: UserService;
   @Get()
   async getAllUsers(): Promise<User[]> {
-    return await this.getUserUsecaseProxy.getInstance().execute();
+    return await this.userService.getAllUsers();
   }
 
-  @Post('/signup')
-  async create(@Body() input: CreateUserDto): Promise<User> {
-    return await this.createUserUsecaseProxy.getInstance().execute(input);
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Get('/me')
+  async me(@CurrentUser() user: User): Promise<User> {
+    return user;
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id: number): Promise<User> {
+    return this.userService.getUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Put()
+  async update(
+    @CurrentUser() user: User,
+    @Body() input: UpdateUserDto,
+  ): Promise<User> {
+    return this.userService.updateUser(user.id, input);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Delete()
+  async delete(@CurrentUser() user: User): Promise<Record<string, boolean>> {
+    await this.userService.deleteUser(user.id);
+    return { success: true };
   }
 }

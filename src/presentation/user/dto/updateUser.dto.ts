@@ -1,29 +1,36 @@
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Trim } from 'class-sanitizer';
-import { IsUserExists } from '../decorators/IsUserExist.decorator';
 
-export class CreateUserDto {
+export class UpdateUserDto {
   @ApiProperty({
     required: true,
     type: 'string',
   })
   @Trim()
+  @IsOptional()
   @IsEmail()
-  @IsUserExists({ message: 'Email is already exist' })
-  email: string;
+  email?: string;
 
   @ApiProperty({
     required: true,
     type: 'string',
   })
+  @Trim()
+  @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @ApiProperty({
     required: true,
     type: 'string',
   })
+  @IsOptional()
   @IsStrongPassword()
-  password: string;
+  password?: string;
 }

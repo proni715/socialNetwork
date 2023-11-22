@@ -3,7 +3,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { Inject, Injectable } from '@nestjs/common';
-import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usercase-proxy.module';
+import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usecase-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usercase-proxy/usecase-proxy';
 import { FindUserByEmailUseCase } from 'src/application/use-cases/user/findUserByEmail.usecase';
 

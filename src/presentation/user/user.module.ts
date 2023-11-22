@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usercase-proxy.module';
+import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usecase-proxy.module';
 import { UserController } from './user.controller';
-import { UserExistConstraint } from './constraints/userExist';
+import { UserService } from './user.service';
 
 @Module({
   imports: [UsecaseProxyModule.register()],
   controllers: [UserController],
-  providers: [UserExistConstraint],
+  providers: [UserService],
 })
 export class UserModule {}

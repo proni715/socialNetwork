@@ -1,10 +1,16 @@
-import { UsecaseProxyModule } from './infrastructure/usercase-proxy/usercase-proxy.module';
+import { UsecaseProxyModule } from './infrastructure/usercase-proxy/usecase-proxy.module';
 import { Module } from '@nestjs/common';
 import { EnvironmentConfigModule } from './infrastructure/config/config.module';
 import { UserModule } from './presentation/user/user.module';
+import { AuthModule } from './presentation/auth/auth.module';
 
 @Module({
-  imports: [UsecaseProxyModule.register(), UserModule, EnvironmentConfigModule],
+  imports: [
+    EnvironmentConfigModule,
+    UsecaseProxyModule.register(),
+    UserModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })

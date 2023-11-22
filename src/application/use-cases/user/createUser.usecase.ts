@@ -1,5 +1,5 @@
 import { UserRepository } from 'src/domain/repositories/user.repository';
-import { UserModel } from 'src/domain/model/user';
+import { UserModel } from 'src/domain/models/user';
 import * as bcrypt from 'bcryptjs';
 import { DeepPartial } from 'typeorm';
 

@@ -1,10 +1,10 @@
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { UserModel } from 'src/domain/models/user';
 
-export class FindUserByEmailUseCase {
+export class DeleteUserUseCase {
   constructor(private usersRepository: UserRepository) {}
 
-  async execute(email: string): Promise<UserModel> {
-    return await this.usersRepository.findByEmail(email);
+  async execute(id: number): Promise<UserModel> {
+    return await this.usersRepository.deleteUser(id);
   }
 }

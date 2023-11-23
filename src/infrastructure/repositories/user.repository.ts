@@ -1,9 +1,11 @@
+import { Paginate } from './../common/paginate';
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
 import { UserModel } from 'src/domain/models/user';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, Like, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetAllUsersDto } from 'src/presentation/user/dto/getUsers.dto';
 
 @Injectable()
 export class UserRepositoryOrm implements UserRepository {
@@ -24,8 +26,19 @@ export class UserRepositoryOrm implements UserRepository {
     return await this.userRepository.findOne({ where: { id } });
   }
 
-  async getAllUsers(): Promise<UserModel[]> {
-    return await this.userRepository.find();
+  async getAllUsers(query: GetAllUsersDto): Promise<Paginate<UserModel>> {
+    const take = query.take || 10;
+    const skip = query.skip || 0;
+    const order = query.order || 'DESC';
+    const search = query.search || '';
+
+    const [data, count] = await this.userRepository.findAndCount({
+      where: { name: Like('%' + search + '%') },
+      order: { createdAt: order },
+      take: take,
+      skip: skip,
+    });
+    return { data, count };
   }
 
   async findByEmail(email: string): Promise<UserModel> {

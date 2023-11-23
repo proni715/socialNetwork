@@ -20,7 +20,7 @@ export class AuthService {
   @Inject(UsecaseProxyModule.CREATE_USER_USE_CASE)
   private readonly createUserUseCase: UseCaseProxy<CreateUserUseCase>;
 
-  public async signup(input: DeepPartial<User>): Promise<User> {
+  public async signup(input: Partial<User>): Promise<User> {
     return await this.createUserUseCase.getInstance().execute(input);
   }
 

@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   Body,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/infrastructure/entities/user.entity';
@@ -16,6 +17,8 @@ import { JwtAuthGuard } from 'src/infrastructure/guards/auth.guard';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { GetAllUsersDto } from './dto/getUsers.dto';
+import { Paginate } from 'src/infrastructure/common/paginate';
 
 @ApiTags('users')
 @Controller('users')
@@ -23,9 +26,10 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 export class UserController {
   @Inject(UserService)
   private readonly userService: UserService;
+
   @Get()
-  async getAllUsers(): Promise<User[]> {
-    return await this.userService.getAllUsers();
+  async getAllUsers(@Query() query: GetAllUsersDto): Promise<Paginate<User>> {
+    return await this.userService.getAllUsers(query);
   }
 
   @UseGuards(JwtAuthGuard)

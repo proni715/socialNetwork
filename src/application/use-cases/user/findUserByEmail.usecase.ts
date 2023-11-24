@@ -5,6 +5,6 @@ export class FindUserByEmailUseCase {
   constructor(private usersRepository: UserRepository) {}
 
   async execute(email: string): Promise<UserModel> {
-    return await this.usersRepository.findByEmail(email);
+    return this.usersRepository.findByEmail(email);
   }
 }

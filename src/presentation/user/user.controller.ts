@@ -18,7 +18,7 @@ import { CurrentUser } from './decorators/currentUser.decorator';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { GetAllUsersDto } from './dto/getUsers.dto';
-import { Paginate } from 'src/infrastructure/common/paginate';
+import { Paginate } from 'src/infrastructure/common/dto/paginate';
 
 @ApiTags('users')
 @Controller('users')
@@ -29,7 +29,7 @@ export class UserController {
 
   @Get()
   async getAllUsers(@Query() query: GetAllUsersDto): Promise<Paginate<User>> {
-    return await this.userService.getAllUsers(query);
+    return this.userService.getAllUsers(query);
   }
 
   @UseGuards(JwtAuthGuard)

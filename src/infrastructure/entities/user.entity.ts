@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { FriendRequest } from './friendRequest.entity';
 
 @Entity('users')
 export class User {
@@ -23,6 +25,13 @@ export class User {
   @Exclude()
   @Column('varchar')
   password: string;
+
+  //Relations\\
+  @OneToMany(() => FriendRequest, (request) => request.sender)
+  sentRequests: FriendRequest[];
+
+  @OneToMany(() => FriendRequest, (request) => request.receiver)
+  receivedRequests: FriendRequest[];
 
   @CreateDateColumn()
   createdAt: Date;

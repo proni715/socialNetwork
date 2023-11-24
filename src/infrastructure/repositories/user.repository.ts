@@ -1,4 +1,4 @@
-import { Paginate } from './../common/paginate';
+import { Paginate } from '../common/dto/paginate';
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
 import { UserModel } from 'src/domain/models/user';
@@ -14,7 +14,7 @@ export class UserRepositoryOrm implements UserRepository {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(input: DeepPartial<UserModel>): Promise<UserModel> {
+  async createUser(input: DeepPartial<User>): Promise<UserModel> {
     return await this.userRepository.save(input);
   }
 
@@ -49,7 +49,6 @@ export class UserRepositoryOrm implements UserRepository {
     return await this.userRepository.findOne({ where: { id } });
   }
   async deleteUser(id: number) {
-    console.log(id);
     return await this.userRepository.delete(id);
   }
 }

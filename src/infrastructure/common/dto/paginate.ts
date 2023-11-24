@@ -1,5 +1,5 @@
 import { IsArray } from 'class-validator';
-import { Paginate as DomainPaginate } from './../../domain/common/paginate';
+import { Paginate as DomainPaginate } from '../../../domain/common/paginate';
 import { ApiProperty } from '@nestjs/swagger';
 export class Paginate<T> implements DomainPaginate<T> {
   @IsArray()

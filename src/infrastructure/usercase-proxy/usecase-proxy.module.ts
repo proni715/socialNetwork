@@ -14,6 +14,8 @@ import { EnvironmentConfigService } from '../config/config.service';
 import { UpdateUserUseCase } from 'src/application/use-cases/user/updateUser.usecse';
 import { FindUserByIdUseCase } from 'src/application/use-cases/user/findById.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/deleteUser.usecase';
+import { FriendRequestRepositoryOrm } from '../repositories/friend.repository';
+import { GetSentRequestsUseCase } from 'src/application/use-cases/friend/getSentRequests.usecase';
 
 @Module({
   imports: [
@@ -40,6 +42,7 @@ export class UsecaseProxyModule {
   static VALIDATE_PASSWORD_USE_CASE = 'validatePasswordProxy';
   static GENERATE_TOKEN_USE_CASE = 'generateTokenUseCaseProxy';
   static VALIDATE_TOKEN_USE_CASE = 'validateTokenUseCaseProxy';
+  static SENT_FRIEND_REQUESTS_USE_CASE = 'sentFriendRequestsUseCaseProxy';
 
   static register(): DynamicModule {
     return {
@@ -98,6 +101,14 @@ export class UsecaseProxyModule {
           useFactory: (jwtService: JwtService) =>
             new UseCaseProxy(new GenerateTokenUseCase(jwtService)),
         },
+        {
+          inject: [FriendRequestRepositoryOrm],
+          provide: UsecaseProxyModule.SENT_FRIEND_REQUESTS_USE_CASE,
+          useFactory: (friendRequestRepository: FriendRequestRepositoryOrm) =>
+            new UseCaseProxy(
+              new GetSentRequestsUseCase(friendRequestRepository),
+            ),
+        },
       ],
       exports: [
         UsecaseProxyModule.GET_ALL_USERS_USE_CASE,
@@ -109,6 +120,7 @@ export class UsecaseProxyModule {
         UsecaseProxyModule.VALIDATE_PASSWORD_USE_CASE,
         UsecaseProxyModule.GENERATE_TOKEN_USE_CASE,
         UsecaseProxyModule.FIND_BY_ID_USER_USE_CASE,
+        UsecaseProxyModule.SENT_FRIEND_REQUESTS_USE_CASE,
       ],
     };
   }

@@ -5,6 +5,6 @@ export class FindUserByIdUseCase {
   constructor(private usersRepository: UserRepository) {}
 
   async execute(id: number): Promise<UserModel> {
-    return await this.usersRepository.findById(id);
+    return this.usersRepository.findById(id);
   }
 }

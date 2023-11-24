@@ -1,21 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { GetAllUsersQuery } from 'src/domain/dto/getAllUsers.dto';
+import { IsOptional, IsString } from 'class-validator';
+import { PaginationDto } from 'src/infrastructure/common/dto/pagination.dto';
 
-export class GetAllUsersDto implements GetAllUsersQuery {
-  @ApiProperty({ required: false, type: 'number' })
-  @IsOptional()
-  take?: number;
-
-  @ApiProperty({ required: false, type: 'number' })
-  @IsOptional()
-  skip?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  order?: 'ASC' | 'DESC';
-
+export class GetAllUsersDto extends PaginationDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()

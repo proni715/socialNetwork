@@ -24,18 +24,18 @@ export class UserService {
   private readonly deleteUserUsecaseProxy: UseCaseProxy<DeleteUserUseCase>;
 
   async updateUser(id: number, input: Partial<User>): Promise<User> {
-    return await this.updateUserUsecaseProxy.getInstance().execute(id, input);
+    return this.updateUserUsecaseProxy.getInstance().execute(id, input);
   }
 
   async getAllUsers(query: GetAllUsersQuery): Promise<Paginate<User>> {
-    return await this.getUserUsecaseProxy.getInstance().execute(query);
+    return this.getUserUsecaseProxy.getInstance().execute(query);
   }
 
   async getUser(id: number): Promise<User> {
-    return await this.findByIdUserUsecaseProxy.getInstance().execute(id);
+    return this.findByIdUserUsecaseProxy.getInstance().execute(id);
   }
 
   async deleteUser(id: number): Promise<User> {
-    return await this.deleteUserUsecaseProxy.getInstance().execute(id);
+    return this.deleteUserUsecaseProxy.getInstance().execute(id);
   }
 }

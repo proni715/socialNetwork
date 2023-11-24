@@ -9,6 +9,6 @@ export class CreateUserUseCase {
     const salt: string = bcrypt.genSaltSync(10);
     input.password = await bcrypt.hashSync(input.password, salt);
 
-    return await this.usersRepository.createUser(input);
+    return this.usersRepository.createUser(input);
   }
 }

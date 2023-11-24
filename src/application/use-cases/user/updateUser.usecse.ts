@@ -8,9 +8,9 @@ export class UpdateUserUseCase {
   async execute(id: number, input: Partial<UserModel>): Promise<UserModel> {
     if (input.password) {
       const salt: string = bcrypt.genSaltSync(10);
-      input.password = await bcrypt.hashSync(input.password, salt);
+      input.password = bcrypt.hashSync(input.password, salt);
     }
 
-    return await this.usersRepository.updateUser(id, input);
+    return this.usersRepository.updateUser(id, input);
   }
 }

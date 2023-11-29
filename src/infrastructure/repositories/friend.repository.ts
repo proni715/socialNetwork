@@ -95,11 +95,9 @@ export class FriendRequestRepositoryOrm implements FriendRequestRepository {
       skip: skip,
     });
 
-    const result = data.map((request) => {
-      if (request.senderId === userId) {
-        return request.receiver;
-      } else return request.sender;
-    });
+    const result = data.map((request) =>
+      request.receiver.id === userId ? request.sender : request.receiver,
+    );
 
     return { data: result, count };
   }

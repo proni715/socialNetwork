@@ -10,6 +10,6 @@ export class GetFriendsUseCase {
     userId: number,
     query: PaginationQuery,
   ): Promise<Paginate<UserModel>> {
-    return this.friendRequestRepository.getSentRequests(userId, query);
+    return this.friendRequestRepository.getFriends(userId, query);
   }
 }

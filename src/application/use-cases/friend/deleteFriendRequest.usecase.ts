@@ -1,6 +1,6 @@
 import { FriendRequestRepository } from 'src/domain/repositories/friendRequest.repository';
 
-export class UpdateFriendRequestUseCase {
+export class DeleteFriendRequestUseCase {
   constructor(private friendRequestRepository: FriendRequestRepository) {}
 
   async execute(id: number) {

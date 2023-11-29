@@ -10,6 +10,6 @@ export class GetReceivedRequestsUseCase {
     userId: number,
     query: PaginationQuery,
   ): Promise<Paginate<UserModel>> {
-    return this.friendRequestRepository.getSentRequests(userId, query);
+    return this.friendRequestRepository.getReceivedRequests(userId, query);
   }
 }

@@ -13,9 +13,6 @@ export class FriendRequestRepositoryOrm implements FriendRequestRepository {
   constructor(
     @InjectRepository(FriendRequest)
     private readonly friendRequestRepository: Repository<FriendRequest>,
-
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
   ) {}
 
   async createFriendRequest(
@@ -67,8 +64,9 @@ export class FriendRequestRepositoryOrm implements FriendRequestRepository {
     const order = query.order || 'DESC';
 
     const [data, count] = await this.friendRequestRepository.findAndCount({
-      where: { receiverId: userId, status: FriendRequestStatus.Pending },
+      where: { receiver: { id: userId }, status: FriendRequestStatus.Pending },
       order: { createdAt: order },
+      relations: { sender: true, receiver: true },
       take: take,
       skip: skip,
     });
@@ -82,7 +80,28 @@ export class FriendRequestRepositoryOrm implements FriendRequestRepository {
     userId: number,
     query: PaginationDto,
   ): Promise<Paginate<User>> {
-    return { data: [], count: 0 };
+    const take = query.take || 10;
+    const skip = query.skip || 0;
+    const order = query.order || 'DESC';
+
+    const [data, count] = await this.friendRequestRepository.findAndCount({
+      where: [
+        { receiver: { id: userId }, status: FriendRequestStatus.Accepted },
+        { sender: { id: userId }, status: FriendRequestStatus.Accepted },
+      ],
+      relations: { sender: true, receiver: true },
+      order: { createdAt: order },
+      take: take,
+      skip: skip,
+    });
+
+    const result = data.map((request) => {
+      if (request.senderId === userId) {
+        return request.receiver;
+      } else return request.sender;
+    });
+
+    return { data: result, count };
   }
 
   async deleteFriendRequest(id: number) {

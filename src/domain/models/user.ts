@@ -1,4 +1,5 @@
 import { FriendRequestModel } from './friendRequest';
+import { PostModel } from './post';
 
 export class UserModel {
   id: number;
@@ -7,6 +8,7 @@ export class UserModel {
   password: string;
   sentRequests: FriendRequestModel[];
   receivedRequests: FriendRequestModel[];
+  posts: PostModel[];
   createdAt: Date;
   updatedAt: Date;
 }

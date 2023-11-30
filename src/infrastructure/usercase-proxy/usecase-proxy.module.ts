@@ -21,6 +21,13 @@ import { GetFriendsUseCase } from 'src/application/use-cases/friend/getFriends.u
 import { CreateFriendRequestUseCase } from 'src/application/use-cases/friend/createFriendRequest.usecase';
 import { UpdateFriendRequestUseCase } from 'src/application/use-cases/friend/updateFriendRequest.usecase';
 import { DeleteFriendRequestUseCase } from 'src/application/use-cases/friend/deleteFriendRequest.usecase';
+import { PostRepositoryOrm } from '../repositories/post.repository';
+import { CreatePostUseCase } from 'src/application/use-cases/post/createPost.usecase';
+import { UpdatePostUseCase } from 'src/application/use-cases/post/updatePost.usecase';
+import { GetPostUseCase } from 'src/application/use-cases/post/getPost.usecase copy';
+import { DeletePostUseCase } from 'src/application/use-cases/post/deletePost.usecase';
+import { GetUserPostsUseCase } from 'src/application/use-cases/post/getUserPosts.usecase';
+import { GetRecomendedPostsUseCase } from 'src/application/use-cases/post/getRecomendedPosts.usecase';
 
 @Module({
   imports: [
@@ -54,6 +61,12 @@ export class UsecaseProxyModule {
   static RECEIVED_FRIEND_REQUESTS_USE_CASE =
     'receivedFriendRequestsUseCaseProxy';
   static GET_FRIENDS_USE_CASE = 'getFriendsUseCaseProxy';
+  static CREATE_POST_USE_CASE = 'createPostUseCaseProxy';
+  static UPDATE_POST_USE_CASE = 'updatePostUseCaseProxy';
+  static GET_POST_USE_CASE = 'getPostUseCaseProxy';
+  static DELETE_POST_USE_CASE = 'deletePostUseCaseProxy';
+  static GET_USER_POSTS_USE_CASE = 'getUserPostsUseCaseProxy';
+  static GET_RECOMENDED_POSTS_USE_CASE = 'getRecomendedPostsUseCaseProxy';
 
   static register(): DynamicModule {
     return {
@@ -158,6 +171,42 @@ export class UsecaseProxyModule {
               new DeleteFriendRequestUseCase(friendRequestRepository),
             ),
         },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.CREATE_POST_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new CreatePostUseCase(postRepository)),
+        },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.UPDATE_POST_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new UpdatePostUseCase(postRepository)),
+        },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.GET_POST_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new GetPostUseCase(postRepository)),
+        },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.DELETE_POST_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new DeletePostUseCase(postRepository)),
+        },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.GET_USER_POSTS_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new GetUserPostsUseCase(postRepository)),
+        },
+        {
+          inject: [PostRepositoryOrm],
+          provide: UsecaseProxyModule.GET_RECOMENDED_POSTS_USE_CASE,
+          useFactory: (postRepository: PostRepositoryOrm) =>
+            new UseCaseProxy(new GetRecomendedPostsUseCase(postRepository)),
+        },
       ],
       exports: [
         UsecaseProxyModule.GET_ALL_USERS_USE_CASE,
@@ -175,6 +224,12 @@ export class UsecaseProxyModule {
         UsecaseProxyModule.GET_FRIENDS_USE_CASE,
         UsecaseProxyModule.SENT_FRIEND_REQUESTS_USE_CASE,
         UsecaseProxyModule.RECEIVED_FRIEND_REQUESTS_USE_CASE,
+        UsecaseProxyModule.CREATE_POST_USE_CASE,
+        UsecaseProxyModule.UPDATE_POST_USE_CASE,
+        UsecaseProxyModule.GET_POST_USE_CASE,
+        UsecaseProxyModule.DELETE_POST_USE_CASE,
+        UsecaseProxyModule.GET_USER_POSTS_USE_CASE,
+        UsecaseProxyModule.GET_RECOMENDED_POSTS_USE_CASE,
       ],
     };
   }

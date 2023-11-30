@@ -1,7 +1,7 @@
 import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Trim } from 'class-sanitizer';
-import { IsUserExists } from '../../user/decorators/IsUserExist.decorator';
+import { IsUserExists } from '../../../infrastructure/common/decorators/IsUserExist.decorator';
 
 export class SignUpDto {
   @ApiProperty({

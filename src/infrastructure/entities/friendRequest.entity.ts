@@ -9,9 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { FriendRequestModel } from 'src/domain/models/friendRequest';
 
 @Entity('friendRequest')
-export class FriendRequest {
+export class FriendRequest implements FriendRequestModel {
   @PrimaryGeneratedColumn()
   id: number;
 

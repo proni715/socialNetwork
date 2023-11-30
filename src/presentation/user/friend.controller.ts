@@ -15,7 +15,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { JwtAuthGuard } from 'src/infrastructure/guards/auth.guard';
-import { CurrentUser } from './decorators/currentUser.decorator';
+import { CurrentUser } from '../../infrastructure/common/decorators/currentUser.decorator';
 import { Paginate } from 'src/infrastructure/common/dto/paginate';
 import { UsecaseProxyModule } from 'src/infrastructure/usercase-proxy/usecase-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usercase-proxy/usecase-proxy';

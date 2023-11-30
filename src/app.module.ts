@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { EnvironmentConfigModule } from './infrastructure/config/config.module';
 import { UserModule } from './presentation/user/user.module';
 import { AuthModule } from './presentation/auth/auth.module';
+import { PostModule } from './presentation/post/post.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { AuthModule } from './presentation/auth/auth.module';
     UsecaseProxyModule.register(),
     UserModule,
     AuthModule,
+    PostModule
   ],
   controllers: [],
   providers: [],

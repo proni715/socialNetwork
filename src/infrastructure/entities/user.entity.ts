@@ -9,9 +9,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { FriendRequest } from './friendRequest.entity';
+import { UserModel } from 'src/domain/models/user';
+import { Post } from './post.entity';
 
 @Entity('users')
-export class User {
+export class User implements UserModel {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -32,6 +34,9 @@ export class User {
 
   @OneToMany(() => FriendRequest, (request) => request.receiver)
   receivedRequests: FriendRequest[];
+
+  @OneToMany(() => Post, (request) => request.owner)
+  posts: Post[];
 
   @CreateDateColumn()
   createdAt: Date;

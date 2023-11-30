@@ -1,5 +1,5 @@
 import { ValidationOptions, registerDecorator } from 'class-validator';
-import { UserExistConstraint } from '../../auth/constraints/userExist';
+import { UserExistConstraint } from '../../../presentation/auth/constraints/userExist';
 
 export function IsUserExists(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
